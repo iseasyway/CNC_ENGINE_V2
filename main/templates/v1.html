@@ -1,0 +1,276 @@
+{% raw %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🔧 CNC 幾何統一計算器 v1（航母正式版）</title>
+
+<style>
+body {
+  background-color: #111;
+  color: #eee;
+  font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 15px 10px 80px;
+  overflow-x: hidden;
+}
+
+/* 上半圖形區 */
+#diagram-container {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  aspect-ratio: 3 / 4;
+  background: #037896;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#diagram {
+  width: 100%;
+  height: 100%;
+  background: url('/public/geometry_base.png') center center no-repeat;
+  background-size: contain;
+  position: relative;
+}
+
+/* 紅圈 */
+.red-circle {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 2px solid red;
+  border-radius: 50%;
+  pointer-events: none;
+  display: none;
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+/* Grid Form */
+#input-panel {
+  width: 90%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: 60% 60%;
+  column-gap: 2%;
+  row-gap: 2%;
+  margin-top: 2px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 90%;
+}
+
+.field label {
+  font-size: 20px;
+  color: #ddd;
+  margin-bottom: 2px;
+}
+
+.field input {
+  width: 50%;
+  height: 32px;
+  font-size: 14px;
+  border: 1px solid #2f78ff8a;
+  border-radius: 5px;
+  background: #1b1b1b;
+  color: #e8e8e8;
+  text-align: right;
+  padding: 0 8px;
+  font-family: Consolas, monospace;
+  transition: all 0.2s;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #66aaff;
+  box-shadow: 0 0 5px rgba(102,170,255,0.4);
+}
+
+/* 按鈕 */
+button {
+  width: 100%;
+  margin-top: 15%;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #b7d7ff;
+  background: linear-gradient(180deg, #1b1b1b, #141414);
+  border: 1px solid #4da3ff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+button:hover {
+  border-color: #6fbaff;
+  color: #d9e9ff;
+  box-shadow: 0 0 5px rgba(111,186,255,0.25);
+}
+
+button:active {
+  background: linear-gradient(180deg, #101010, #1a1a1a);
+  transform: translateY(1px);
+}
+
+/* 結果框 */
+.output-box {
+  margin-top: 12px;
+  background: #222;
+  color: #0f0;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  line-height: 1.4;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+}
+
+html, body {
+  overflow-x: hidden;
+}
+</style>
+</head>
+
+<body>
+<h3>🔧 CNC（刀鼻半徑補正系統計算器）</h3>
+
+<!-- 圖形區 -->
+<div id="diagram-container">
+  <div id="diagram">
+    <div id="highlight" class="red-circle"></div>
+  </div>
+</div>
+
+<!-- 表單區 -->
+<div id="input-panel">
+<form id="calc-form" autocomplete="off">
+
+  <div class="grid-form">
+    <div class="field">
+      <label>斜度 X 起點：</label>
+      <input name="斜度x起始點" type="number" step="any" onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>外徑 D：</label>
+      <input name="前端x軸外徑" type="number" step="any" onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>斜度長 W：</label>
+      <input name="斜度長" type="number" step="any" onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>角度 A：</label>
+      <input name="角度" type="number" step="any" onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>前端 R：</label>
+      <input name="前端R角" type="number" step="any" onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>未端 R：</label>
+      <input name="未端R角" type="number" step="any" onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>Z 軸長度：</label>
+      <input name="z軸長度" type="number" step="any" onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>倒角 R：</label>
+      <input name="R角" type="number" step="any" onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>刀鼻半徑：</label>
+      <input name="刀鼻半徑" type="number" step="any" onfocus="this.select()">
+    </div>
+  </div>
+
+  <button type="submit">🚀 執行運算</button>
+</form>
+
+<div id="output" class="output-box"></div>
+</div>
+
+<script>
+// 紅圈邏輯
+const circle = document.getElementById("highlight");
+const positions = {
+  "前端x軸外徑": {left: "120px", top: "200px"},
+  "角度":       {left: "140px", top: "145px"},
+  "斜度長":     {left: "210px", top: "130px"},
+  "刀鼻半徑":   {left: "400px", top: "310px"},
+  "前端R角":     {left: "213px", top: "162px"},
+  "未端R角":     {left: "165px", top: "182px"},
+  "z軸長度":     {left: "140px", top: "100px"},
+  "斜度x起始點": {left: "235px", top: "200px"},
+  "R角":         {left: "430px", top: "200px"},
+};
+
+document.querySelectorAll("input").forEach(inp => {
+  inp.addEventListener("focus", e => {
+    const pos = positions[e.target.name];
+    if (pos) {
+      circle.style.left = pos.left;
+      circle.style.top = pos.top;
+      circle.style.display = "block";
+    }
+  });
+  inp.addEventListener("blur", () => circle.style.display = "none");
+});
+
+// Submit
+const form = document.getElementById("calc-form");
+const output = document.getElementById("output");
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const fd = new FormData(form);
+
+  try {
+    const res = await fetch("/api/v1/calc", { method: "POST", body: fd });
+    const data = await res.json();
+
+    if (data.ok) output.innerHTML = data.html;
+    else output.innerHTML = "❌ 錯誤：" + data.error;
+
+  } catch (err) {
+    output.innerHTML = "⚠️ 無法連線伺服器：" + err.message;
+  }
+});
+</script>
+
+</body>
+</html>
+{% endraw %}
