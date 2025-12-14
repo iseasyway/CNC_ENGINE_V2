@@ -1,1 +1,3 @@
-flask
+git add .
+git commit -m "move requirements to root"
+git push origin main
