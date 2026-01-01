@@ -1,165 +1,42 @@
-# ==========================================================
-# CNC 幾何統一計算系統｜FastAPI 主應用程式
-# ----------------------------------------------------------
-# 功能定位：
-# - 提供 Web 入口（首頁 / V1 計算器）
-# - 提供 API（接收表單 → 呼叫幾何工廠 → 回傳結果）
-# - 串接前端 HTML + 後端 Python 幾何模組
-#
-# 架構角色：
-# - 本檔案 ≠ 幾何計算
-# - 本檔案 = 路由、資料轉送、回傳結果
-#
-# 設計核心：
-# - 前後端完全分離
-# - 幾何運算集中於 v1_solver
-# ==========================================================
-
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, JSONResponse
+# app.py
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-
-# ==========================================================
-# 幾何主控（V1 工廠航母）
-# ----------------------------------------------------------
-# run_all_modules_with_output：
-# - 接收「參數 dict」
-# - 依序執行 V1 所有幾何模組
-# - 回傳「已格式化的 HTML 結果字串」
-# ==========================================================
-from main.v1_solver import run_all_modules_with_output
+# 主線只掛 v1 V2
+from main.routers.v1_router import router as v1_router
+from main.routers.v2_router import router as v2_router 
+from main.routers.v3_router import router as v3_router
+# 等 v3 完成再打開
+# from main.routers.v3_router import router as v3_router 
 
 
-# ==========================================================
-# FastAPI App 初始化
-# ==========================================================
 app = FastAPI()
 
-
-# ==========================================================
-# 靜態資源掛載
-# ----------------------------------------------------------
-# 對應前端：
-# - 圖片（幾何底圖）
-# - CSS / JS（若未來拆出）
-#
-# 使用方式：
-# - 前端透過 /public/xxx 取得檔案
-# ==========================================================
+# 靜態檔案
 app.mount("/public", StaticFiles(directory="public"), name="public")
 
-
-# ==========================================================
-# Jinja2 模板設定
-# ----------------------------------------------------------
-# 專門負責：
-# - index.html（首頁）
-# - v1.html（V1 計算器畫面）
-# ==========================================================
+# HTML 模板
 templates = Jinja2Templates(directory="main/templates")
+app.state.templates = templates
 
-
-# ----------------------------------------------------------
-# 首頁（版本選擇 / 系統入口）
-# ----------------------------------------------------------
+# 首頁（分類）
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
-    """
-    首頁：
-    - 顯示系統入口畫面
-    - 提供版本選擇（目前為 V1）
-    """
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request}
-    )
+    return templates.TemplateResponse("index.html", {"request": request})
 
+# 分類頁
+@app.get("/category/a", response_class=HTMLResponse)
+def category_a(request: Request):
+    return templates.TemplateResponse("category_a.html", {"request": request})
 
-# ----------------------------------------------------------
-# V1 計算器頁
-# ----------------------------------------------------------
-@app.get("/v1", response_class=HTMLResponse)
-def v1_page(request: Request):
-    """
-    V1 主計算器畫面：
-    - 顯示幾何底圖
-    - 提供參數輸入表單
-    - JS 會將資料 POST 到 /api/v1/calc
-    """
-    return templates.TemplateResponse(
-        "v1.html",
-        {"request": request}
-    )
+@app.get("/category/b", response_class=HTMLResponse)
+def category_b(request: Request):
+    return templates.TemplateResponse("category_b.html", {"request": request})
 
-
-# ----------------------------------------------------------
-# API：V1 幾何計算入口
-# ----------------------------------------------------------
-@app.post("/api/v1/calc")
-async def api_calc(
-    # ======================================================
-    # 以下參數名稱「必須」與前端 input 的 name 完全一致
-    # FastAPI 會自動從 FormData 解析
-    # ======================================================
-    前端x軸外徑: float = Form(...),
-    斜度長: float = Form(...),
-    角度: float = Form(...),
-    前端R角: float = Form(...),
-    未端R角: float = Form(...),
-    z軸長度: float = Form(...),
-    R角: float = Form(...),
-    刀鼻半徑: float = Form(...),
-    斜度x起始點: float = Form(...),
-):
-    """
-    V1 API 流程說明：
-    1️⃣ 接收前端表單數值（皆為 float）
-    2️⃣ 組成統一資料 dict
-    3️⃣ 丟入 V1 幾何主控（run_all_modules_with_output）
-    4️⃣ 回傳 HTML 結果給前端顯示
-    """
-
-    # ======================================================
-    # 將所有輸入參數整理成 dict
-    # ------------------------------------------------------
-    # 原則：
-    # - key 名稱統一
-    # - 方便未來記錄 / 除錯 / 接其他模組
-    # ======================================================
-    data = {
-        "前端x軸外徑": 前端x軸外徑,
-        "斜度長": 斜度長,
-        "角度": 角度,
-        "前端R角": 前端R角,
-        "未端R角": 未端R角,
-        "z軸長度": z軸長度,
-        "R角": R角,
-        "刀鼻半徑": 刀鼻半徑,
-        "斜度x起始點": 斜度x起始點,
-    }
-
-    try:
-        # ==================================================
-        # 呼叫 V1 幾何主控
-        # --------------------------------------------------
-        # 回傳內容：
-        # - 已格式化好的 HTML 字串
-        # ==================================================
-        html_output = run_all_modules_with_output(data)
-
-        return JSONResponse({
-            "ok": True,
-            "html": html_output
-        })
-
-    except Exception as e:
-        # ==================================================
-        # 錯誤攔截（避免前端崩潰）
-        # ==================================================
-        print("❌ 後端錯誤：", e)
-
-        return JSONResponse({
-            "ok": False,
-            "error": f"伺服器錯誤：{e}"
-        })
+# 主線只掛 v1 V2
+app.include_router(v1_router)
+app.include_router(v2_router)
+app.include_router(v3_router)
+# 等 v3 完成再打開
+# app.include_router(v3_router)

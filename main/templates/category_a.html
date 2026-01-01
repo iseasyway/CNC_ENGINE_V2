@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A 類｜前端幾何模組</title>
+
+<style>
+/* ===== 基本設定（桌機 / 平板） ===== */
+body {
+  background: #111;
+  color: #eee;
+  font-family: "Microsoft JhengHei", sans-serif;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* ===== 圖示網格（桌機） ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ===== 卡片 ===== */
+.card {
+  background: #1c1c1c;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  color: #eee;
+  transition: 0.25s;
+  border: 1px solid #2a2a2a;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #2da3ff;
+}
+
+.card img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+  background: #000;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.card p {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* ===== 返回 ===== */
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 40px;
+  color: #aaa;
+  text-decoration: none;
+}
+
+/* ================================================= */
+/* ===== 手機版（一定要放最後） ===== */
+/* ================================================= */
+@media screen and (max-width: 600px) {
+
+  body {
+    padding: 20px 12px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr !important; /* ★ 真正關鍵 */
+    gap: 12px;
+  }
+
+  .card {
+    padding: 6px;
+    border-radius: 8px;
+  }
+
+  .card img {
+    height: 90px;            /* 固定高度 */
+    max-height: none;
+    object-fit: cover;      /* 裁切，不撐高 */
+    margin-bottom: 6px;
+  }
+
+  .card p {
+    font-size: 13px;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
+</style>
+
+
+</head>
+
+<body>
+
+    <h2>🅰️｜外徑刀鼻補正 </h2>
+
+    <div class="grid">
+
+        <!-- A-1 前端圓角 -->
+        <a class="card" href="/v1?module=a1">
+            <img src="/public/v1_geometry_base.PNG" alt="A-1">
+            <p>A-1</p>
+        </a>
+
+        <!-- A-2 前端倒角 -->
+        <a class="card" href="/v2">
+            <img src="/public/v2_geometry_base.PNG?v=2025.12.31" alt="A-2">
+            <p>A-2</p>
+        </a>
+
+        <!-- A-3 前端斜線圓弧 -->
+        <a class="card" href="/v3">
+            <img src="/public/v3_geometry_base.PNG" alt="A-3">
+            <p>A-3</p>
+        </a>
+
+    </div>
+
+    <a class="back" href="/">← 返回分類首頁</a>
+
+</body>
+</html>
