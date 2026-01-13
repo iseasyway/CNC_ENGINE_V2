@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
 ===========================================================
- CNC 幾何統一計算器｜V1 主操作頁
+ CNC 幾何統一計算器｜V4 主操作頁
 -----------------------------------------------------------
  功能定位：
  - 顯示 CNC 幾何基礎圖
@@ -74,8 +74,8 @@ body {
 #diagram {
   width: 98%;
   height: 100%;
-
-  background: url('/public/v2_geometry_base.PNG?v=2025.12.31') center center no-repeat;/* '/public/v1_geometry_base.png?v=5' */
+  
+  background: url('/public/v4_geometry_base.PNG') center center no-repeat;/* '/public/v1_geometry_base.png?v=5' */
   background-size: contain;
   position: relative; /* 供紅圈 absolute 定位 */
 }
@@ -150,7 +150,6 @@ body {
   font-family: Consolas, monospace;
   transition: all 0.2s;
 }
-
 /* 特殊紅色輸入框（覆蓋 .field input） */
 .field input.input-red {
   border: 1px solid #ef4444;
@@ -221,7 +220,6 @@ html, body {
 <body>
 
 <h3>🔧 CNC（刀鼻半徑補正系統計算器）</h3>
-
 <!-- ======================================================
      圖形顯示區
 ====================================================== -->
@@ -237,44 +235,75 @@ html, body {
      參數輸入表單
 ====================================================== -->
 <div id="input-panel">
-
 <form id="calc-form" autocomplete="off">
 
-  <!-- ===== module_a : Escape Groove ===== -->
+  <!-- 每一組 grid-form 代表一行參數 -->
   <div class="grid-form">
     <div class="field">
-      <label>斜度 X 起點：</label>
-      <input name="K6" type="text" class="input-red"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+      <label>起始點X：</label>
+      <input name="斜度x起始點"  type="text" class="input-red" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
     </div>
     <div class="field">
-      <label>外徑 D：</label>
-      <input name="K1" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+      <label>外徑 d：</label>
+      <input name="前端x軸外徑" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
     </div>
   </div>
 
   <div class="grid-form">
     <div class="field">
-      <label>斜度長 W：</label>
-      <input name="K4" type="text" class="input-red" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+      <label>角度 A-A：</label>
+      <input name="角度" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
     </div>
     <div class="field">
-      <label>角度 A：</label>
-      <input name="K2" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+      <label>斜度長 W1：</label>
+      <input name="斜度長" type="text"  class="input-red" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
     </div>
   </div>
 
   <div class="grid-form">
     <div class="field">
-      <label>Z軸刀鼻起始點 W1：</label>
-      <input name="K3" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+      <label>俢倒角 R1：</label>
+      <input name="前端R角" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
     </div>
     <div class="field">
-      <label>刀鼻半徑r：</label>
-      <input name="K5" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+      <label>俢倒角 R2：</label>
+      <input name="未端R角" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>深度距離 W2：</label>
+      <input name="z軸長度" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>倒角 R：</label>
+      <input name="R角" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>角度 A-B：</label>
+      <input name="斜度角"  type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>終點外徑 D：</label>
+      <input name="終點x軸外徑" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    
+    <div class="field">
+      <label>刀鼻半徑 r：</label>
+      <input name="刀鼻半徑" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
     </div>
   </div>
 
   <button type="submit">🚀 執行運算</button>
+  
+  
 </form>
 
 <!-- 後端計算結果顯示 -->
@@ -288,13 +317,18 @@ html, body {
 const circle = document.getElementById("highlight");
 const diagram = document.getElementById("diagram");
 const positions = {
-  "K1":    {x:66.7, y: 74.2},      <!-- 外徑D -->
-  "K2":          {x: 70.2, y: 22.5},     <!-- 角度A -->
-  "K4":        {x: 79.3, y: 22.5},         <!-- 斜度長W -->
-  "K5":      {x: 92.2, y: 24.3},         <!-- 刀鼻半徑r -->
-  "K3":       {x: 92.8, y: 35.2},          <!--Z軸刀鼻起始點 W1-->
-  "K6":   {x: 86.2, y: 52.5},           <!--斜度x起始點 -->
-  };
+  "斜度x起始點":   {x: 91.3, y: 54.5},
+  "前端x軸外徑":    {x:62., y: 54.5},      <!-- 外徑D -->
+  "角度":          {x: 57.8, y: 17.5},     <!-- 角度A -->
+  "斜度長":        {x: 68., y: 13.},         <!-- 斜度長W -->
+  "前端R角":       {x: 76.5, y: 30.2},         <!-- 前端R1 -->
+  "未端R角":       {x: 67.8, y: 25.},          <!--未端R2 -->
+  "z軸長度":       {x: 57.2, y: 7.3},          <!--z軸長度 -->
+  "R角":           {x: 48.7, y: 22.5},           <!--倒角 R -->
+  "斜度角":         {x: 28.6, y: 13.2}, 
+  "終點x軸外徑":    {x: 20.3, y: 17.},
+  "刀鼻半徑":      {x: 83.5, y: 28.}, 
+};
 
 document.querySelectorAll("input").forEach(inp => {
   inp.addEventListener("focus", e => {
@@ -316,20 +350,21 @@ document.querySelectorAll("input").forEach(inp => {
    - 輸入「斜度長」→ 自動把「斜度x起始點」設為 999
    - 輸入「斜度x起始點」→ 自動把「斜度長」設為 999
 ========================================================= */
-const inputK4 = document.querySelector('input[name="K4"]');
-const inputK6 = document.querySelector('input[name="K6"]');
+const inputB3 = document.querySelector('input[name="斜度長"]');
+const inputB7 = document.querySelector('input[name="斜度x起始點"]');
 
-inputK4.addEventListener("input", () => {
-  if (inputK4.value !== "") {
-    inputK6.value = 999;
+inputB3.addEventListener("input", () => {
+  if (inputB3.value !== "") {
+    inputB7.value = 999;
   }
 });
 
-inputK6.addEventListener("input", () => {
-  if (inputK6.value !== "") {
-    inputK4.value = 999;
+inputB7.addEventListener("input", () => {
+  if (inputB7.value !== "") {
+    inputB3.value = 999;
   }
 });
+
 /* =========================================================
    表單送出 → 後端 API
 ========================================================= */
@@ -338,30 +373,16 @@ const output = document.getElementById("output");
 
 form.addEventListener("submit", async e => {
   e.preventDefault();
-  output.innerHTML = "⏳ 計算中…";
 
   const fd = new FormData(form);
 
   try {
-    const res = await fetch("/api/v2/calc", {
+    const res = await fetch("/api/v4/calc", {
       method: "POST",
       body: fd
     });
 
-    // 🔥 先拿純文字，不要急著 json
-    const text = await res.text();
-    console.log("RAW RESPONSE:", text);
-
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (e) {
-      output.innerHTML =
-        "❌ 後端未回傳 JSON（可能是 404 / 500）<br><pre>" +
-        text +
-        "</pre>";
-      return;
-    }
+    const data = await res.json();
 
     if (data.ok) {
       output.innerHTML = data.html;
@@ -370,7 +391,7 @@ form.addEventListener("submit", async e => {
     }
 
   } catch (err) {
-    output.innerHTML = "⚠️ JS 錯誤：" + err.message;
+    output.innerHTML = "⚠️ 無法連線伺服器：" + err.message;
   }
 });
 document.querySelectorAll('input[inputmode="decimal"]').forEach(inp => {

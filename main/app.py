@@ -7,8 +7,9 @@ from fastapi.templating import Jinja2Templates
 from main.routers.v1_router import router as v1_router
 from main.routers.v2_router import router as v2_router 
 from main.routers.v3_router import router as v3_router
-# 等 v3 完成再打開
-# from main.routers.v3_router import router as v3_router 
+from main.routers.v4_router import router as v4_router
+# 等 v4 完成再打開
+# from main.routers.v3_router import router as v5_router 
 
 
 app = FastAPI()
@@ -38,5 +39,7 @@ def category_b(request: Request):
 app.include_router(v1_router)
 app.include_router(v2_router)
 app.include_router(v3_router)
-# 等 v3 完成再打開
-# app.include_router(v3_router)
+app.include_router(v4_router)
+# 等 v4 完成再打開
+# app.include_router(v5_router)
+

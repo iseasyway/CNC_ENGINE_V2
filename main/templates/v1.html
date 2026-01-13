@@ -151,6 +151,12 @@ body {
   transition: all 0.2s;
 }
 
+/* 特殊紅色輸入框（覆蓋 .field input） */
+.field input.input-red {
+  border: 1px solid #ef4444;
+  background: #2a0f0f;
+}
+
 /* 輸入中高亮 */
 .field input:focus {
   outline: none;
@@ -236,7 +242,7 @@ html, body {
   <div class="grid-form">
     <div class="field">
       <label>斜度 X 起點：</label>
-      <input name="斜度x起始點"  type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+      <input name="斜度x起始點"  type="text" class="input-red"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
     </div>
     <div class="field">
       <label>外徑 D：</label>
@@ -247,7 +253,7 @@ html, body {
   <div class="grid-form">
     <div class="field">
       <label>斜度長 W：</label>
-      <input name="斜度長" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+      <input name="斜度長" type="text" class="input-red" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
     </div>
     <div class="field">
       <label>角度 A：</label>

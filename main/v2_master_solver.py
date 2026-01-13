@@ -125,7 +125,7 @@ def _render_output_v2(results: dict) -> str:
 
     AB = results.get("AB", {})
     html += f"G1 X{g(A,'K1'):.3f} Z-{AB.get('L_minus_B51', 0):.3f} F0.1🟡\n\n"
-    html += "=== 🟢 V2 幾何運算完成 ==="
+    html += "=== ⭐ 幾何運算完成 ==="
 
     return html
 
