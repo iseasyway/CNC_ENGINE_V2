@@ -1,3 +1,5 @@
+print("DEPLOY TEST 2026-01-13 11:32")
+
 # app.py
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
@@ -8,8 +10,9 @@ from main.routers.v1_router import router as v1_router
 from main.routers.v2_router import router as v2_router 
 from main.routers.v3_router import router as v3_router
 from main.routers.v4_router import router as v4_router
-# 等 v4 完成再打開
-# from main.routers.v3_router import router as v5_router 
+from main.routers.v5_router import router as v5_router
+# 等 v5 完成再打開
+# from main.routers.v6_router import router as v6_router 
 
 
 app = FastAPI()
@@ -40,6 +43,7 @@ app.include_router(v1_router)
 app.include_router(v2_router)
 app.include_router(v3_router)
 app.include_router(v4_router)
-# 等 v4 完成再打開
-# app.include_router(v5_router)
+app.include_router(v5_router)
+# 等 v5 完成再打開
+# app.include_router(v6_router)
 
