@@ -75,7 +75,7 @@ body {
   width: 98%;
   height: 100%;
 
-  background: url('/public/v2_geometry_base.PNG?v=2025.12.31') center center no-repeat;/* '/public/v1_geometry_base.png?v=5' */
+  background: url('/public/v2_geometry_base.PNG?v=2026.01.16') center center no-repeat;/* '/public/v1_geometry_base.png?v=5' */
   background-size: contain;
   position: relative; /* 供紅圈 absolute 定位 */
 }
@@ -265,7 +265,7 @@ html, body {
 
   <div class="grid-form">
     <div class="field">
-      <label>Z軸刀鼻起始點 W1：</label>
+      <label>刀點起始位置 W：</label>
       <input name="K3" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
     </div>
     <div class="field">
@@ -288,12 +288,12 @@ html, body {
 const circle = document.getElementById("highlight");
 const diagram = document.getElementById("diagram");
 const positions = {
-  "K1":    {x:66.7, y: 74.2},      <!-- 外徑D -->
-  "K2":          {x: 70.2, y: 22.5},     <!-- 角度A -->
-  "K4":        {x: 79.3, y: 22.5},         <!-- 斜度長W -->
-  "K5":      {x: 92.2, y: 24.3},         <!-- 刀鼻半徑r -->
-  "K3":       {x: 92.8, y: 35.2},          <!--Z軸刀鼻起始點 W1-->
-  "K6":   {x: 86.2, y: 52.5},           <!--斜度x起始點 -->
+  "K1":   {x:46.7, y: 77.2},    //<!-- 外徑D -->
+  "K2":   {x: 44.2, y: 32.5},   //<!-- 角度A -->
+  "K4":   {x: 55., y: 29.},   //<!-- 斜度長W -->
+  "K5":   {x: 78.2, y: 34.3},   //<!-- 刀鼻半徑r -->
+  "K3":   {x: 67., y: 40.5},   //<!--Z軸刀鼻起始點 W1-->
+  "K6":   {x: 65., y: 53.5},   //<!--斜度x起始點 -->
   };
 
 document.querySelectorAll("input").forEach(inp => {

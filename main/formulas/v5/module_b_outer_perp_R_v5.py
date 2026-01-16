@@ -65,7 +65,7 @@ def solve_b(data):
     B57 = (B19-E4)*2
     B20 = H8                            # 小徑延伸 Z
     B58 = B20-E4
-
+    B59 = B9-E4
     def _fmt(x):
      # 例如固定顯示到小數點兩位
         return f"{x:.3f}"
@@ -81,6 +81,7 @@ def solve_b(data):
          "B56": B56,
          "B57": B57,
          "B58": B58,
+         "B59": B59,
      }
 
     text_lines = [
@@ -93,6 +94,7 @@ def solve_b(data):
         f"B56 = {_fmt(B56)}",
         f"B57 = {_fmt(B57)}",
         f"B58 = {_fmt(B58)}",
+        f"B59 = {_fmt(B59)}",
     ]
 
     return {
