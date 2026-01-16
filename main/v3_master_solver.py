@@ -78,14 +78,14 @@ def run_all_v3_modules_with_output(data: dict) -> str:
     # -------------------------
 
     html += f"G1 X{g(A,'X_START'):.3f} F0.1🔴\n"
-    html += f"G1 Z{g(A,'Z_START'):.3f} F0.1🔴\n"
+    html += f"G1 Z{g(A,'Z_START'):.3f} F0.1🔴\n\n"
 
-    html += f"G02X{g(A,'X_END'):.3f} Z{g(A,'Z_END'):.3f} R{g(A,'R_AFTER'):.3f} F0.1🟡 \n"
+    html += f"G02X{g(A,'X_END'):.3f} Z{g(A,'Z_END'):.3f} R{g(A,'R_AFTER'):.3f} F0.1🟡 \n\n"
      # -------------------------
     # B 工廠輸出
     # -------------------------
     
-    html += f"G1 X{g(B,'X_START'):.3f} F0.1⚫\n"
+    html += f"G1 X{g(B,'X_START'):.3f} F0.1⚫\n\n"
     AB = results.get("AB", {})
     html += f"G03 X{g(B,'X_END'):.3f} Z{AB.get('L_minus_B51', 0):.3f} R{g(B,'R_AFTER'):.3f} F0.1 🔵\n\n"
    

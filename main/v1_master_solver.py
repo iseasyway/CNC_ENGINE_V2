@@ -89,22 +89,22 @@ def _render_output_v1(results: dict) -> str:
 
     # ===== 前端 R 角 =====
     html += f"G0 X{g(A,'B21'):.3f} Z2. 🔴\n"
-    html += f"G1 Z{g(A,'B22'):.3f} F0.1🔴\n\n"
+    html += f"G1 Z{g(A,'B22'):.3f} F0.1🔴\n"
 
-    html += f"G03 X{g(A,'B42'):.3f} Z{g(A,'B43'):.3f} R{g(A,'B44'):.3f} F0.1🔴\n"
+    html += f"G03 X{g(A,'B42'):.3f} Z{g(A,'B43'):.3f} R{g(A,'B44'):.3f} F0.1🔴\n\n"
     #html += f"前端R角刀鼻補正    \n\n"
 
     # ===== 未端 R 角 =====
     html += f"G1 X{g(C,'E3'):.3f} Z{g(C,'E2'):.3f} F0.1🟡\n"
     #html += f"未端R角起始點      \n\n"
 
-    html += f"G03 X{g(C,'E5'):.3f} Z{g(C,'E4'):.3f} R{g(C,'E6'):.3f} F0.1🟡\n"
+    html += f"G03 X{g(C,'E5'):.3f} Z{g(C,'E4'):.3f} R{g(C,'E6'):.3f} F0.1🟡\n\n"
     #html += f"未端R角終點        \n"
     #html += f"刀鼻補正後圓孤     \n\n"
 
     # ===== 外徑圓弧補正 =====
     html += f"G1 Z-{g(B,'OUT_E3'):.3f} F0.1⚫\n\n"
-    html += f"G02 X{g(B,'OUT_E7'):.3f} Z-{g(B,'OUT_E6'):.3f} R{g(B,'OUT_E9'):.3f} F0.1🔵\n"
+    html += f"G02 X{g(B,'OUT_E7'):.3f} Z-{g(B,'OUT_E6'):.3f} R{g(B,'OUT_E9'):.3f} F0.1🔵\n\n"
     #html += f"圓孤後z座標:       \n"
     #html += f"刀鼻補正後圓孤:    \n\n"
 

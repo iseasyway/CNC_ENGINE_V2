@@ -114,7 +114,7 @@ def _render_output_v2(results: dict) -> str:
     #      A 工廠（Escape Groove）
     # ===========================
     html += f"G0 X{g(A,'B51'):.3f}🔴\n"
-    html += f"G0 Z{g(A,'D4'):.3f}🔴\n"
+    html += f"G0 Z{g(A,'D4'):.3f}🔴\n\n"
     
 
     # ===========================

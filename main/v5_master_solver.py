@@ -86,9 +86,9 @@ def _render_output_v5(results: dict) -> str:
 
     
     html += f"G1 X{g(A,'B51'):.3f} F0.1 🔴\n"
-    html += f"G1 Z{g(A,'B52'):.3f} F0.1 🔴\n"
+    html += f"G1 Z{g(A,'B52'):.3f} F0.1 🔴\n\n"
     html += f"G1 X{g(B,'B55'):.3f} Z{g(B,'B56'):.3f} F0.1🟡\n"
-    html += f"G02 X{g(B,'B57'):.3f} Z{g(B,'B58'):.3f} R{g(B,'B59'):.3f} F0.1🟡\n"
+    html += f"G02 X{g(B,'B57'):.3f} Z{g(B,'B58'):.3f} R{g(B,'B59'):.3f} F0.1🟡\n\n"
     html += f"G1 Z{g(C,'B52'):.3f} F0.1⚫\n"
     html += f"G02 X{g(C,'B54'):.3f} Z{g(C,'B53'):.3f} R{g(C,'B55'):.3f} F0.1⚫\n\n"
 
