@@ -50,6 +50,17 @@ body {
   overflow-x: hidden;
 }
 
+/* ===== 返回 ===== */
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 40px;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 23px; 
+  font-weight: 500;
+}
+
 /* =========================================================
    上半部：幾何圖形顯示區
 ========================================================= */
@@ -220,6 +231,7 @@ html, body {
 
 <body>
 
+
 <h3>🔧 CNC（刀鼻半徑補正系統計算器）</h3>
 <!-- ======================================================
      圖形顯示區
@@ -352,6 +364,8 @@ inputB7.addEventListener("input", () => {
   }
 });
 
+
+
 /* =========================================================
    表單送出 → 後端 API
 ========================================================= */
@@ -400,9 +414,15 @@ document.querySelectorAll('input[inputmode="decimal"]').forEach(inp => {
     e.target.value = v;
   });
 });
+  function goBack() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = "/category/a"; // ← 改成你的上一層
+        }
+    }
 </script>
-
-
+<a href="#" class="back" onclick="goBack()">← 返回</a>
 </body>
 </html>
 

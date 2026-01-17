@@ -1,46 +1,132 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
-  <meta charset="UTF-8">
-  <title>B 類｜外徑幾何</title>
-  <style>
-    body {
-      background: #111;
-      color: #eee;
-      font-family: "Microsoft JhengHei", sans-serif;
-      text-align: center;
-      padding-top: 40px;
-    }
-    .card {
-      display: inline-block;
-      width: 180px;
-      margin: 10px;
-      padding: 10px;
-      background: #1e1e1e;
-      border-radius: 10px;
-      text-decoration: none;
-      color: #fff;
-    }
-    .card img {
-      width: 100%;
-      border-radius: 8px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B 類｜前端幾何模組</title>
+
+<style>
+/* ===== 基本設定（桌機 / 平板） ===== */
+body {
+  background: #111;
+  color: #eee;
+  font-family: "Microsoft JhengHei", sans-serif;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* ===== 圖示網格（桌機） ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ===== 卡片 ===== */
+.card {
+  background: #1c1c1c;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  color: #eee;
+  transition: 0.25s;
+  border: 1px solid #2a2a2a;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #2da3ff;
+}
+
+.card img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+  background: #000;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.card p {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* ===== 返回 ===== */
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 40px;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 23px; 
+  font-weight: 500;
+}
+
+/* ================================================= */
+/* ===== 手機版（一定要放最後） ===== */
+/* ================================================= */
+@media screen and (max-width: 600px) {
+
+  body {
+    padding: 20px 12px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr !important; /* ★ 真正關鍵 */
+    gap: 12px;
+  }
+
+  .card {
+    padding: 6px;
+    border-radius: 8px;
+  }
+
+  .card img {
+    height: 90px;            /* 固定高度 */
+    max-height: none;
+    object-fit: cover;      /* 裁切，不撐高 */
+    margin-bottom: 6px;
+  }
+
+  .card p {
+    font-size: 13px;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
+</style>
+
+
 </head>
+
 <body>
 
-  <h2>🔷 B 類｜外徑幾何（尚未實作）</h2>
+    <h2>🅱️｜內徑刀鼻補正 </h2>
 
-  <!-- 之後可以加 B-1 / B-2 / B-3 -->
-  <!--
-  <a class="card" href="/v1?module=b1">
-    <img src="/public/v1_geometry_base.PNG">
-    <p>B-1｜外徑圓角</p>
-  </a>
-  -->
+    <div class="grid">
 
-  <br><br>
-  <a class="back" href="/">← 返回分類首頁</a>
+     
+          
+    </div>
+
+    <a class="back" href="/">← 返回分類首頁</a>
 
 </body>
 </html>
