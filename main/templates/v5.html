@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
 ===========================================================
- CNC 幾何統一計算器｜V5 主操作頁
+ CNC 幾何統一計算器｜V4 主操作頁
 -----------------------------------------------------------
  功能定位：
  - 顯示 CNC 幾何基礎圖
@@ -59,7 +59,7 @@ body {
   text-decoration: none;
   font-size: 23px; 
   font-weight: 500;
-}`
+}
 
 /* =========================================================
    上半部：幾何圖形顯示區
@@ -86,7 +86,7 @@ body {
   width: 98%;
   height: 100%;
   
-  background: url('/public/v5_geometry_base.PNG?v=2026.01.16') center center no-repeat;
+  background: url('/public/v5_geometry_base.PNG') center center no-repeat;/* '/public/v1_geometry_base.png?v=5' */
   background-size: contain;
   position: relative; /* 供紅圈 absolute 定位 */
 }
@@ -124,8 +124,8 @@ body {
 /* Grid 排版：左右兩欄 */
 .grid-form {
   display: grid;
-  grid-template-columns: 50% 50%;
-  column-gap: 8%;
+  grid-template-columns: 60% 60%;
+  column-gap: 2%;
   row-gap: 2%;
   margin-top: 2px;
 }
@@ -140,14 +140,14 @@ body {
 
 /* 標籤文字 */
 .field label {
-  font-size: 16px;
+  font-size: 20px;
   color: #ddd;
   margin-bottom: 2px;
 }
 
 /* 輸入框樣式 */
 .field input {
-  width: 60%;
+  width: 50%;
   height: 32px;
   font-size: 14px;
 
@@ -173,6 +173,7 @@ body {
   border-color: #66aaff;
   box-shadow: 0 0 5px rgba(102,170,255,0.4);
 }
+
 /* =========================================================
    主執行按鈕
 ========================================================= */
@@ -228,7 +229,7 @@ html, body {
 </head>
 
 <body>
-  
+   
 
 <h3>🔧 CNC（刀鼻半徑補正系統計算器）</h3>
 <!-- ======================================================
@@ -309,15 +310,16 @@ html, body {
 const circle = document.getElementById("highlight");
 const diagram = document.getElementById("diagram");
 const positions = {
-  "大徑X":                  {x: 64.7, y: 52.},
+  "大徑X":                  {x: 52.7, y: 55.},
   "工件原點至斜度角W":       {x:39.5, y: 26.},      
-  "角度":                   {x: 42.9, y: 33.8},             
-  "前端R角":                {x: 42.0, y: 77.8},         
-  "小徑X":                  {x: 13.5, y: 51.2},          
+  "角度":                   {x: 33.5, y: 37.8},             
+  "前端R角":                {x: 30.2, y: 68.2},         
+  "小徑X":                  {x: 16., y: 54.2},          
   "工件原點至終點面W":       {x: 36.2, y: 13.8},          
-  "終端R角":                {x: 39., y: 87.2},            
+  "終端R角":                {x: 25.5, y: 68.5},            
   "刀鼻半徑":               {x: 75.0, y: 45.}, 
 };
+
 
 document.querySelectorAll("input").forEach(inp => {
   inp.addEventListener("focus", e => {
@@ -391,7 +393,6 @@ document.querySelectorAll('input[inputmode="decimal"]').forEach(inp => {
     }
 </script>
 <a href="#" class="back" onclick="goBack()">← 返回</a>
-
 </body>
 </html>
 
