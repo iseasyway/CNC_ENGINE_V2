@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<!--
+===========================================================
+
+===========================================================
+-->
+<html lang="zh-Hant">
+
+<head>
+<meta charset="UTF-8">
+
+<!-- 行動裝置鎖定縮放，避免 CNC 數值輸入誤觸 -->
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>🔧 CNC 幾何統一計算器</title>
+
+<style>
+/* =========================================================
+   全頁基本樣式
+========================================================= */
+body {
+  background-color: #111;
+  color: #eee;
+  font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+
+  /* 使用 flex 讓內容垂直排列 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-height: 100vh;
+  padding: 15px 10px 80px;
+  overflow-x: hidden;
+}
+
+/* ===== 返回 ===== */
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 40px;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 23px; 
+  font-weight: 500;
+}
+
+/* =========================================================
+   上半部：幾何圖形顯示區
+========================================================= */
+#diagram-container {
+  width:90%;             /* 容器寬度 = 螢幕或父容器的 90% */
+  max-width: 800px;       /* 最大不超過 800px */
+  margin: 0 auto;         /* 整個容器水平置中 */
+
+  /* 固定比例，確保圖面不變形 */
+  aspect-ratio: 1.23 / 1.0;    /* 強制容器 寬 : 高 = 3 : 4 */
+  background: #037896;  /* 容器背景色 */
+  border-radius: 10px;    /* 邊角圓弧 */
+  overflow: hidden;       /* 超出容器的東西全部裁掉 */
+  display: flex; /* 把容器變成 彈性盒 */
+  justify-content: center;/* 水平方向置中 */
+  align-items: center; /* 垂直方向置中 */
+  margin-bottom: 15px;    /* 圖容器 下面留 15px 空間 */
+}
+
+
+/* 圖形本體（背景圖） */
+#diagram {
+  width: 98%;
+  height: 100%;
+  
+  background: url('/public/v7_geometry_base.PNG') center center no-repeat;/* '/public/v1_geometry_base.png?v=5' */
+  background-size: contain;
+  position: relative; /* 供紅圈 absolute 定位 */
+}
+
+/* =========================================================
+   紅圈提示（參數 → 圖面位置）
+========================================================= */
+.red-circle {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 2px solid red;
+  border-radius: 50%;
+  pointer-events: none; /* 不干擾操作 */
+  display: none;
+  animation: blink 1s infinite;
+  transform: translate(-50%, -50%);
+}
+
+/* 紅圈閃爍動畫 */
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+/* =========================================================
+   輸入表單區
+========================================================= */
+#input-panel {
+  width: 90%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Grid 排版：左右兩欄 */
+.grid-form {
+  display: grid;
+  grid-template-columns: 60% 60%;
+  column-gap: 2%;
+  row-gap: 2%;
+  margin-top: 2px;
+}
+
+/* 單一輸入欄位 */
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%;
+}
+
+/* 標籤文字 */
+.field label {
+  font-size: 20px;
+  color: #ddd;
+  margin-bottom: 2px;
+}
+
+/* 輸入框樣式 */
+.field input {
+  width: 50%;
+  height: 32px;
+  font-size: 14px;
+
+  border: 1px solid #2f78ff8a;
+  border-radius: 5px;
+  background: #1b1b1b;
+  color: #e8e8e8;
+
+  text-align: right; /* CNC 數值習慣靠右 */
+  padding: 0 8px;
+  font-family: Consolas, monospace;
+  transition: all 0.2s;
+}
+/* 特殊紅色輸入框（覆蓋 .field input） */
+.field input.input-red {
+  border: 1px solid #ef4444;
+  background: #2a0f0f;
+}
+
+/* 輸入中高亮 */
+.field input:focus {
+  outline: none;
+  border-color: #66aaff;
+  box-shadow: 0 0 5px rgba(102,170,255,0.4);
+}
+
+/* =========================================================
+   主執行按鈕
+========================================================= */
+button {
+  width: 100%;
+  margin-top: 15%;
+  padding: 10px 0;
+
+  font-size: 16px;
+  font-weight: 600;
+  color: #b7d7ff;
+
+  background: linear-gradient(180deg, #1b1b1b, #141414);
+  border: 1px solid #4da3ff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+button:hover {
+  border-color: #6fbaff;
+  color: #d9e9ff;
+  box-shadow: 0 0 5px rgba(111,186,255,0.25);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* =========================================================
+   結果顯示區
+========================================================= */
+.output-box {
+  margin-top: 12px;
+  background: #222;
+  color: #0f0;
+
+  padding: 10px;
+  border-radius: 8px;
+
+  font-family: monospace;
+  white-space: pre-wrap;
+  line-height: 1.4;
+
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+}
+
+/* 防止橫向捲動 */
+html, body {
+  overflow-x: hidden;
+}
+</style>
+</head>
+
+<body>
+   
+
+<h3>🔧 CNC（刀鼻半徑補正系統計算器）</h3>
+<!-- ======================================================
+     圖形顯示區
+====================================================== -->
+<div id="diagram-container">
+ 
+  <div id="diagram">
+    <!-- 紅圈提示 -->
+    <div id="highlight" class="red-circle"></div>
+  </div>
+</div>
+
+<!-- ======================================================
+     參數輸入表單
+====================================================== -->
+<div id="input-panel">
+<form id="calc-form" autocomplete="off">
+
+  <!-- 每一組 grid-form 代表一行參數 -->
+  <div class="grid-form">
+    <div class="field">
+      <label>原點至斜角W1：</label>
+      <input name="前端w"  type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>前端 R:</label>
+      <input name="前端R" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>角度-1：</label>
+      <input name="角度1" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>角度-2：</label>
+      <input name="角度2" type="text"   inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>中端 R：</label>
+      <input name="中端R" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>未端 R：</label>
+      <input name="未端R" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>原點至斜角W2：</label>
+      <input name="原點至終點面W" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+    <div class="field">
+      <label>未端 D：</label>
+      <input name="未端D" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+  </div>
+
+  <div class="grid-form">
+    <div class="field">
+      <label>刀鼻半徑 r：</label>
+      <input name="刀鼻半徑" type="text"  inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  onfocus="this.select()">
+    </div>
+  </div>
+
+    <button type="submit">🚀 執行運算</button>
+  </form>
+
+<!-- 後端計算結果顯示 -->
+<div id="output" class="output-box"></div>
+</div>
+
+<script>
+/* =========================================================
+   紅圈提示邏輯
+========================================================= */
+const circle = document.getElementById("highlight");
+const diagram = document.getElementById("diagram");
+const positions = {
+  "前端w":            {x: 57.5, y: 20.5},
+  "前端R":            {x: 61.5, y: 73.5},      
+  "角度1":            {x: 34.8, y: 13.},             
+  "角度2":            {x: 26.5, y: 20.3},         
+  "中端R":            {x: 53.3, y: 79.2},
+  "未端R":            {x: 41.5, y: 81.3},
+  "原點至終點面W":     {x: 51.8, y: 11.},
+  "未端D":            {x: 20.3, y: 50.2},
+  "刀鼻半徑":          {x: 77.5, y: 30.5},  
+                 
+};
+
+
+document.querySelectorAll("input").forEach(inp => {
+  inp.addEventListener("focus", e => {
+    const pos = positions[e.target.name];
+    if (pos) {
+      circle.style.left = pos.x + "%";
+      circle.style.top  = pos.y + "%";
+      circle.style.display = "block";
+    }
+  });
+  inp.addEventListener("blur", () => {
+    circle.style.display = "none";
+  });
+});
+
+
+/* =========================================================
+   表單送出 → 後端 API
+========================================================= */
+const form = document.getElementById("calc-form");
+const output = document.getElementById("output");
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const fd = new FormData(form);
+
+  try {
+    const res = await fetch("/api/v7/calc", {
+      method: "POST",
+      body: fd
+    });
+
+    const data = await res.json();
+
+    if (data.ok) {
+      output.innerHTML = data.html;
+    } else {
+      output.innerHTML = "❌ 錯誤：" + data.error;
+    }
+
+  } catch (err) {
+    output.innerHTML = "⚠️ 無法連線伺服器：" + err.message;
+  }
+});
+document.querySelectorAll('input[inputmode="decimal"]').forEach(inp => {
+  inp.addEventListener("input", e => {
+    let v = e.target.value;
+
+    // 1️⃣ 逗號一律轉成小數點
+    v = v.replace(/,/g, '.');
+
+    // 2️⃣ 移除非數字與小數點
+    v = v.replace(/[^0-9.]/g, '');
+
+    // 3️⃣ 只允許一個小數點
+    const parts = v.split('.');
+    if (parts.length > 2) {
+      v = parts[0] + '.' + parts.slice(1).join('');
+    }
+
+    e.target.value = v;
+  });
+});
+ function goBack() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = "/category/a"; // ← 改成你的上一層
+        }
+    }
+</script>
+<a href="#" class="back" onclick="goBack()">← 返回</a>
+</body>
+</html>
+
