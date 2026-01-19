@@ -80,24 +80,22 @@ def _render_output_v7(results: dict) -> str:
     html += "=== 🧩 刀點座標總表 ===\n\n"
 
     # ===== 前端 R 角 =====
-    html += f"G0 X{g(A,'B51'):.3f} Z2. 🔴\n"
-    html += f"G0 X{g(A,'B52'):.3f} Z2. 🔴\n"
-
+   
     html += f"G0 X{g(B,'B51'):.3f} Z2. 🔴\n"
     html += f"G1 Z{g(B,'B52'):.3f} F0.1🔴\n"
     html += f"G03 X{g(B,'B53'):.3f} Z{g(B,'B54'):.3f} R{g(B,'B55'):.3f} F0.1🔴\n\n"
    
 
-    html += f"G1 X{g(C,'B52'):.3f} Z{g(C,'B51'):.3f} F0.1🔴\n"
-    html += f"G03 X{g(C,'B54'):.3f} Z{g(C,'B53'):.3f} R{g(C,'B55'):.3f} F0.1🔴\n\n"
+    html += f"G1 X{g(C,'B52'):.3f} Z{g(C,'B51'):.3f} F0.1🟡\n"
+    html += f"G03 X{g(C,'B54'):.3f} Z{g(C,'B53'):.3f} R{g(C,'B55'):.3f} F0.1🟡\n\n"
     
     #html += f"前端R角刀鼻補正    \n\n"
 
     # ===== 未端 R 角 =====
-    html += f"G1 X{g(D,'B52'):.3f} Z{g(D,'B51'):.3f} F0.1🟡\n"
+    html += f"G1 X{g(D,'B52'):.3f} Z{g(D,'B51'):.3f} F0.1⚫\n"
     #html += f"未端R角起始點      \n\n"
 
-    html += f"G03 X{g(D,'B53'):.3f} Z{g(D,'B54'):.3f} R{g(D,'B55'):.3f} F0.1🟡\n\n"
+    html += f"G03 X{g(D,'B53'):.3f} Z{g(D,'B54'):.3f} R{g(D,'B55'):.3f} F0.1⚫\n\n"
     #html += f"未端R角終點        \n"
     #html += f"刀鼻補正後圓孤     \n\n"
 
