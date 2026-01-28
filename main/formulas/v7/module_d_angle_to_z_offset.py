@@ -84,7 +84,7 @@ def solve_d(data):
     # B46 = B17 - sqrt( max(0, B14^2 - (B45 - B16)^2 ) )
     inside = max(0.0, B14**2 - (B45 - B16)**2)
     B46 = B17 - math.sqrt(inside)
-    B51 = B41-B7-B13
+    D51 = B41-B7-B13
     B52= (B42-B13)*2
     B53= (B45-B13)*2
     B54=  B46-B7-B13
@@ -96,7 +96,7 @@ def solve_d(data):
         return f"{x:.3f}"
 
     result_values = {
-        "B51": B51,
+        "D51": D51,
         "B52": B52,
         "B53": B53,
         "B54": B54,
@@ -105,8 +105,8 @@ def solve_d(data):
     }
 
     text_lines = [
-        "➡️ 前端斜角 → 平線 → 終點弧（C 工廠）",
-        f"B51 = {_fmt(B51)}",
+        "➡️ 前端斜角 → 平線 → 終點弧（D 工廠）",
+        f"D51 = {_fmt(D51)}",
         f"B52 = {_fmt(B52)}",
         f"B53 = {_fmt(B53)}",
         f"B54 = {_fmt(B54)}",
