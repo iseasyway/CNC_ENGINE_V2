@@ -13,8 +13,9 @@ from main.routers.v4_router import router as v4_router
 from main.routers.v5_router import router as v5_router
 from main.routers.v6_router import router as v6_router
 from main.routers.v7_router import router as v7_router
-# 等 V7 完成再打開
-# from main.routers.v8_router import router as v8_router 
+from main.routers.id1_router import router as id1_router
+# 等 id1 完成再打開``
+# from main.routers.v9_router import router as v9_router 
 
 
 app = FastAPI()
@@ -48,6 +49,7 @@ app.include_router(v4_router)
 app.include_router(v5_router)
 app.include_router(v6_router)
 app.include_router(v7_router)
-# 等 v7 完成再打開
-# app.include_router(v8_router)
+app.include_router(id1_router)
+# 等 id1 完成再打開
+# app.include_router(v9_router)
 
