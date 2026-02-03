@@ -66,7 +66,7 @@ def solve_d(data: dict):
     B16  = B12-B10#R3Z
     B17  = G01+G101+r
     B18  = H01+G01+r
-    B19  = G102*2
+    B19  = G102
 
     R1X =(B1+B5+r)*2
     R1Z =B2 
