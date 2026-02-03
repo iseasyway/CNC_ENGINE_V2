@@ -14,7 +14,9 @@ from main.routers.v5_router import router as v5_router
 from main.routers.v6_router import router as v6_router
 from main.routers.v7_router import router as v7_router
 from main.routers.id1_router import router as id1_router
-# 等 id1 完成再打開``
+from main.routers.id2_router import router as id2_router
+from main.routers.id3_router import router as id3_router
+# 等 id2 完成再打開``
 # from main.routers.v9_router import router as v9_router 
 
 
@@ -50,6 +52,8 @@ app.include_router(v5_router)
 app.include_router(v6_router)
 app.include_router(v7_router)
 app.include_router(id1_router)
-# 等 id1 完成再打開
+app.include_router(id2_router)
+app.include_router(id3_router)
+# 等 id2 完成再打開
 # app.include_router(v9_router)
 
