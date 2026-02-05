@@ -170,6 +170,16 @@ body {
   border-radius: 6px;      /* 圓角效果 */
   transform: translateX(28%);
   margin-top: 2px;
+  font-size: 1.2em;       /* 桌面字體 */
+  white-space: nowrap;    /* 強制不換行 */
+  max-width: 90%;         /* 避免超出螢幕 */
+}
+
+@media (max-width: 600px) {
+  .notice-text {
+    font-size: 1em;       /* 手機字體縮小 */
+    white-space: normal;  /* 手機允許換行避免擠爆 */
+  }
 }
 
 
