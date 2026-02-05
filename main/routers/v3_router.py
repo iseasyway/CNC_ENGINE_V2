@@ -16,9 +16,9 @@ async def api_v3_calc(
     K1_A: float = Form(...),   # 小徑 X
     K2_A: float = Form(...),   # Z → 起點距離
     K3_A: float = Form(...),   # R 角
-    
+   
 
-    # ===== B 工廠輸入 =====
+   
     K1_B: float = Form(...),   # 終點外徑 X
     K2_B: float = Form(...),   # R 角
     
@@ -37,7 +37,7 @@ async def api_v3_calc(
         "K2_A": K2_A,
         "K3_A": K3_A,
         "K4": K4,
-
+        
         # Module B 需要 K1,K2,K3
         "K1_B": K1_B,
         "K2_B": K2_B,

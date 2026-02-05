@@ -6,7 +6,7 @@ SENTINEL = 999
 
 def solve(data: dict):
     values = {}
-    A_values = data.get("A", {})
+    A_values = data.get("A", {}) 
     B_values = data.get("B", {})
     B4 = A_values.get("C01")
     B5 = B_values.get("C02")
@@ -83,6 +83,7 @@ def solve(data: dict):
         K4 = K3+B4-B9
     # --- DX 模式 ---
     else:
+
         X1 = B8+DX1
         dX = X1 - B2
         dZ = abs(dX) / tan_theta

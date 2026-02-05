@@ -16,25 +16,40 @@ def fmt(x, p=6):
 def solve_a(data):
  
     # ========= 1️⃣ 基本讀值 =========
-    B2 = _to_float(data["前端x軸外徑"]) / 2.0
+    B103 = _to_float(data["前端x軸外徑"])
+    B104 = _to_float(data["終點x軸外徑"])
+  
+    B2 = B103 / 2.0
     raw_B3 = data.get("斜度長")
     raw_B7 = data.get("斜度x起始點")
 
     B4 = _to_float(data["角度"])
     B5 = _to_float(data["前端R角"])
     B6 = _to_float(data["刀鼻半徑"]) * 2.0
-
+    B101 = _to_float(data["z軸長度"])
+    B102 = _to_float(data["斜度角"])
     # ========= 2️⃣ 角度防呆 =========
-    if abs(math.sin(math.radians(B4))) < 1e-12:
-        raise ValueError("A 模組錯誤：角度不能為 0")
-
+    if B4 <= 0 or B4 >= 90:
+        raise ValueError("角度 A-A 不可小於 0度 ~ 大於 90 度") 
+    # ========= 2️⃣ 角度防呆 =========
+    if B102 <= 0 or B102 >= 90:
+        raise ValueError("角度 A-B 不可小於 0度 ~ 大於 90 度")     
+    if raw_B7!=999 and raw_B7 >= B103:
+        raise ValueError(" 起始點X 不可大於或等於 外徑d")       
+    if  B103 >= B104:
+        raise ValueError(" 外徑d 不可大於或等於 終點外徑D")
+    if  B103 >= B104:
+        raise ValueError(" 外徑d 不可大於或等於 終點外徑D") 
+    if raw_B3!=999 and raw_B3 >= B101:
+        raise ValueError(" 斜度長W1 不可大於或等於 W2")      
     # ========= 3️⃣ 判斷 B3 / B7 是否有效 =========
     def is_blank(v):
         return v in (None, "", 999, -999)
 
     has_B3 = not is_blank(raw_B3)
     has_B7 = not is_blank(raw_B7)
-
+   
+  
     if not has_B3 and not has_B7:
         raise ValueError("A 模組錯誤：B3 與 B7 至少需輸入一個")
 
@@ -43,15 +58,19 @@ def solve_a(data):
 
     # ========= 5️⃣ 補算缺的那一個 =========
     if has_B7:
+        
         B7 = _to_float(raw_B7) / 2.0
         B3 = m * (B2 - B7)
         src = "B7 → 推算 B3"
     else:
+        
         B3 = -abs(_to_float(raw_B3))
         B7 = B2 - (B3 / m)
         src = "B3 → 推算 B7"
 
     # ========= 6️⃣ 以下「完全不動你原本公式」 =========
+    
+     
     B9  = B6 / 2.0
     B10 = m
     B11 = B3 - B10 * B2

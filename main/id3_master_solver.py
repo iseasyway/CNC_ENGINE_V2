@@ -110,7 +110,8 @@ def _render_output_id3(results: dict) -> str:
     html += f"G02 X{g(D,'R4X'):.3f} Z{g(D,'R4Z'):.3f} R{g(D,'R2R'):.3f} F0.1🟡\n\n"
     
       
-    html += "=== ⭐ 幾何運算完成 ==="
+    html += "=== ⭐ 幾何運算完成 ===\n\n"
+    html += "<span style='color:red; font-weight:bold;'>⚠ 請至機床確認座標圖形 ⚠</span>";
 
     return html
 

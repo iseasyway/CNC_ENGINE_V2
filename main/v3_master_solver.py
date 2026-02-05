@@ -24,8 +24,9 @@ def run_all_modules(data: dict):
         "K1_A": data["K1_A"],   # 小徑 X
         "K2_A": data["K2_A"],   # Z 原點 → 起始距離
         "K3_A": data["K3_A"],   # R角
-        "K4": data["K4"],     # 刀鼻半徑（共用）
-    }
+        "K4": data["K4"], 
+        "K1_B": data["K1_B"],        
+    }   
 
     # -------------------------
     # B 工廠（專用資料包）
@@ -89,6 +90,7 @@ def run_all_v3_modules_with_output(data: dict) -> str:
     AB = results.get("AB", {})
     html += f"G03 X{g(B,'X_END'):.3f} Z{AB.get('L_minus_B51', 0):.3f} R{g(B,'R_AFTER'):.3f} F0.1 🔵\n\n"
    
-    html += "=== ⭐ 幾何運算完成 ==="
+    html += "=== ⭐ 幾何運算完成 ===\n\n"
+    html += "<span style='color:red; font-weight:bold;'>⚠ 請至機床確認座標圖形 ⚠</span>";
 
     return html

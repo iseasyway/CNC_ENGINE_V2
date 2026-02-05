@@ -158,6 +158,21 @@ body {
   box-shadow: 0 0 5px rgba(102,170,255,0.4);
 }
 
+
+.notice-text {
+  display: block;          /* 讓文字獨立一行 */
+  text-align: center;      /* 文字置中 */
+  color: red;              /* 紅色字體 */
+  font-weight: bold;       /* 粗體 */
+  font-size: 1.2em;        /* 字體稍大 */
+  background-color: #ffecec; /* 淡紅背景，凸顯提示 */
+  padding: 6px 12px;       /* 內距，讓文字不貼邊 */
+  border-radius: 6px;      /* 圓角效果 */
+  transform: translateX(28%);
+  margin-top: 2px;
+}
+
+
 /* =========================================================
    主執行按鈕
 ========================================================= */
@@ -234,6 +249,14 @@ html, body {
 <form id="calc-form" autocomplete="off">
 
   <!-- 每一組 grid-form 代表一行參數 -->
+
+  
+  <div class="grid-form">
+    <div class="notice-text">
+  
+    <label>紅色欄位擇一輸入即可</label>
+    </div>
+  </div>
   <div class="grid-form">
     <div class="field">
       <label>起始點X：</label>

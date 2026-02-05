@@ -71,20 +71,13 @@ def _render_output_id1(results: dict) -> str:
 
     html = ""
     html += "=== 🧩 刀點座標總表 ===\n\n"
-
-   
-    
+       
     html += f"G0 X{g(C,'C5'):.3f} Z2.🔴\n"
-    html += f"G1 Z{g(C,'C4'):.3f} F0.1🔴\n"
-    html += f"G1 X{g(C,'C3'):.3f} Z{g(C,'C6'):.3f} F0.1🟡\n"
-
-
-    
-    #html += f"圓孤後z座標:       \n"
-    #html += f"刀鼻補正後圓孤:    \n\n"
-
-
-    html += "=== ⭐ 幾何運算完成 ==="
+    html += f"G1 Z{g(C,'C4'):.3f} F0.1🔴\n\n"
+    html += f"G1 X{g(C,'C3'):.3f} Z{g(C,'C6'):.3f} F0.1🟡\n\n"
+      
+    html += "=== ⭐ 幾何運算完成 ===\n\n"
+    html += "<span style='color:red; font-weight:bold;'>⚠ 請至機床確認座標圖形 ⚠</span>";
 
     return html
 

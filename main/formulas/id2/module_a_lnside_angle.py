@@ -5,10 +5,24 @@ SENTINEL = 999
 
 
 def solve_a(data: dict):
-    
-    
 
-
+    B101  = float(data["斜度x起始點"]) 
+    B102  = float(data["前端x軸內徑"])
+    B103  = float(data["內端小徑X"])
+    B104  = float(data["角度"])
+    B105  = float(data["角度2"])
+    B106  = float(data["斜度長"])  
+    B107  = float(data["未端斜度W"])     
+    if B104 <= 0 or B104 >= 90:
+        raise ValueError("角度-1 必須介於 0 ~ 90 度")   
+    if B105 <= 0 or B105 >= 90:
+        raise ValueError("角度-2 必須介於 0 ~ 90 度")      
+    if B101!=999 and B101 <= B102:     
+        raise ValueError(" 起始點X 不可小於或等於 內徑d-1") 
+    if  B102 >= B103:
+        raise ValueError(" 內徑d-1 不可大於或等於 內徑d-2")
+    if B106!=999 and B106 >= B107:    
+        raise ValueError(" 斜度長W1 不可大於或等於 溝前W")        
     # ===================================================
     # 1️⃣ 輸入整理層（= 單機版 inputs.py）
     # ===================================================
@@ -17,11 +31,9 @@ def solve_a(data: dict):
         # 幾何起點
         
         B2 = float(data["前端x軸內徑"]/2)        
-       
-        
+              
         B8 = 0.       # Z0
-        
-       
+               
         B3 = float(data["角度"]) 
 
         
@@ -58,6 +70,7 @@ def solve_a(data: dict):
     tan_theta = math.tan(math.radians(B3))
     if abs(tan_theta) < 1e-12:
         raise ValueError("C 工廠錯誤：角度不可為 0")
+    
 
     # --- DZ 模式 ---
     if DZ != SENTINEL:
@@ -74,6 +87,7 @@ def solve_a(data: dict):
 
     # --- DX 模式 ---
     else:
+  
         X1 = B8+DX1
         dX = X1 - B2
         dZ = abs(dX) / tan_theta

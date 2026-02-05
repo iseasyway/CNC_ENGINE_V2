@@ -57,8 +57,7 @@ def solve(data: dict):
     angle = float(K2)
     radius = float(K5)
 
-    if abs(angle) < 1e-12:
-        raise ValueError("B 工廠錯誤：角度不可為 0")
+  
 
     # ========= 呼叫公式核心 =========
     B51 = solve_simple_arc(angle, radius)

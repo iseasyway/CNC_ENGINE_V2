@@ -20,16 +20,31 @@ def solve_a(data):
     # - 所有輸入皆轉為 float
     # - 外徑一律轉為半徑計算
     # ==================================================
-    B4  = float(data["大徑X"]) / 2.0
+    B101  = float(data["大徑X"])
+    B102  = float(data["小徑X"])
+    B103  = float(data["角度2"])
+    B104  = float(data["終端X"]) 
+    B105  = float(data["原點至斜度角W"])   
+    B106  = float(data["原點至終點面W"])
+
+    B4  = B101 / 2.0
     B5  = -abs(float(data["原點至斜度角W"]) )
     B6  = float(data["角度1"])
-    B7  = float(data["小徑X"]) / 2.0
+    B7  = B102 / 2.0
     B8  = float(data["前端R1"])
     B9  = float(data["前端R2"])
     B10 = float(data["刀鼻半徑"]) *2
    
-  
-             
+    if B6 <= 0 or B6 >= 90:
+        raise ValueError("角度-1 不可小於 0度 ~ 大於 90 度")
+    if B103 <= 0 or B103 >= 90:
+        raise ValueError("角度-2 不可小於 0度 ~ 大於 90 度")  
+    if  B102 >= B101:
+        raise ValueError(" 前端D 不可小於或等於 中端D")         
+    if  B102 >= B104:
+        raise ValueError(" 中端D 不可大於或等於 終端X") 
+    if  B105 >= B106:
+        raise ValueError(" 斜度角W 不可大於或等於 斜角W2")                  
      # ======== 基礎三角運算（E欄公式）========
     E4 = B10 / 2.0                     # 刀鼻半徑
     E5 = math.sin(math.radians(B6))    # sin(角度)

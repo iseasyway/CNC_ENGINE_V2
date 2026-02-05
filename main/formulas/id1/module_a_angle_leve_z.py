@@ -11,9 +11,10 @@ import math
 
 
 def solve_a(data):
-    # ===============================
-    # 輸入端（圖面角度）
-    # ===============================
+
+    B101  = float(data["斜度x起始點"]) 
+    B102  = float(data["前端x軸內徑"])
+
     r  = float(data["刀鼻半徑"]) 
     A  = float(data["角度"])
 
@@ -22,7 +23,9 @@ def solve_a(data):
     # 角度鎖定
     # ===============================
     if A <= 0 or A >= 90:
-        raise ValueError("角度 A 必須介於 0 ~ 90 度")
+        raise ValueError("角度 必須介於 0 ~ 90 度")
+    if B101!=999 and B101 <= B102:     
+        raise ValueError(" 起始點X 不可小於或等於 內徑d")    
 
     # ===============================
     # 計算（終點端 Z，反邊修正後）

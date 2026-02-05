@@ -6,12 +6,25 @@ import math
 def solve_a(data):
  
     # ========= 1️⃣ 基本讀值 =========
-    B4  = float(data["大徑X"]) / 2.0
+    B101  = float(data["大徑X"])  
+    B102  = float(data["小徑X"]) 
+    B103  = -abs(float(data["工件原點至終點面W"]) )    
+   
+    B4  = B101/ 2.0
     B5  = -abs(float(data["工件原點至斜度角W"]) )
     B6  = float(data["角度"])
-    B7  = float(data["小徑X"]) / 2.0
-    B8 = float(data["刀鼻半徑"]) 
-    
+    B7  = B102 / 2.0
+    B8 = float(data["刀鼻半徑"])
+
+
+    if B6 <= 0 or B6 >= 90:
+        raise ValueError("角度 A-A 不可小於 0度 ~ 大於 90 度") 
+    if  B102 >= B101:
+        raise ValueError(" 小徑d 不可大於或等於 大徑D")        
+    if  B5 <= B103:
+        raise ValueError(" 斜度角W 不可大於或等於 終點面W") 
+
+
     E4 = B8 
     E7 = math.tan(math.radians(B6) / 2.0)
     E8 = B5 + (B7 - B4) / math.tan(math.radians(B6))

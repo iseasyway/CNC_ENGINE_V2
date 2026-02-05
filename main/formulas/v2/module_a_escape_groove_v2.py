@@ -59,7 +59,10 @@ def solve(data: dict):
         raise ValueError("K4 和 K6 不可同時輸入")
     if not has_K4 and not has_K6:
         raise ValueError("K4 和 K6 必須輸入其中一個")
-
+    if K6!=999 and K6 >= K1:
+        raise ValueError(" 斜度X起點 不可大於或等於 外徑D")    
+    if K2 <= 0 or K2 >= 90:
+        raise ValueError("角度 A 不可小於 0度 ~ 大於 90 度")
     # 共用參數
     R_big = K1 / 2
     theta_deg = K2
@@ -80,6 +83,7 @@ def solve(data: dict):
     # ============================================================
     # ⭐⭐⭐ B 模式：K6 = 底部直徑 X → 先反推 W，再走主公式
     # ============================================================
+
     else:
         D_bottom = float(K6)   # 例 30
         D_start  = K1          # 例 40

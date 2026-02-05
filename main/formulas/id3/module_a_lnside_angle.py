@@ -6,6 +6,15 @@ SENTINEL = 999
 
 def solve_a(data: dict):
     
+    B101  = float(data["斜度x起始點"])     
+    B102  = float(data["前端x軸內徑"])
+    B104  = float(data["角度"])
+
+
+    if B104 <= 0 or B104 >= 90:
+        raise ValueError("角度 必須介於 0 ~ 90 度")   
+    if B101!=999 and B101 <= B102:     
+        raise ValueError(" 起始點X 不可小於或等於 內徑d") 
     
 
 
@@ -17,14 +26,10 @@ def solve_a(data: dict):
         # 幾何起點
         
         B2 = float(data["前端x軸內徑"]/2)        
-       
-        
+               
         B8 = 0.       # Z0
-        
-       
+               
         B3 = float(data["角度"]) 
-
-        
         # 距離（二選一，999）
         
         raw_DX = data.get("斜度x起始點", SENTINEL)

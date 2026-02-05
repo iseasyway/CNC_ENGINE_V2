@@ -118,7 +118,8 @@ def _render_output_v4(results: dict) -> str:
     #html += f"刀鼻補正後圓孤:    \n\n"
 
 
-    html += "=== ⭐ 幾何運算完成 ==="
+    html += "=== ⭐ 幾何運算完成 ===\n\n"
+    html += "<span style='color:red; font-weight:bold;'>⚠ 請至機床確認座標圖形 ⚠</span>";
 
     return html
 

@@ -11,8 +11,10 @@ DISPLAY_DECIMALS = 3
 # ----------------------------------------------------------
 # ⭐ 原始加工廠公式（你的 formulas.py）
 # ----------------------------------------------------------
-def solve_escape_groove(B2, B3, B5, B6):
 
+def solve_escape_groove(B2, B3, B5, B6, B7):
+    if B2 >= B7:
+        raise ValueError(" 斜度X起點 不可大於或等於 外徑D")
     B9 = B6
     E3 = B3 + B5
     E4 = B2 + B9
@@ -39,15 +41,16 @@ def solve(data: dict):
     K2 = float(data["K2_A"])   # Z → 起點距離
     K3 = float(data["K3_A"])   # R 角
     K4 = float(data["K4"])   # 刀鼻半徑
-
+    K5 = float(data["K1_B"]) 
     # ========= K → B（照你 main.py 設計）=========
     B2 = K1 / 2
     B3 = -abs(K2)
     B5 = K3
     B6 = K4
+    B7 = K5 / 2
 
     # ========= 呼叫加工廠公式 =========
-    b15, b16, b17, b18, b19 = solve_escape_groove(B2, B3, B5, B6)
+    b15, b16, b17, b18, b19 = solve_escape_groove(B2, B3, B5, B6, B7)
 
     # ========= 輸出到 master_solver =========
     return {

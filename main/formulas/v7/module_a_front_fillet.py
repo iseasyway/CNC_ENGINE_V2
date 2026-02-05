@@ -20,11 +20,25 @@ def solve_a(data):
     # - 所有輸入皆轉為 float
     # - 外徑一律轉為半徑計算
     # ==================================================
+    B101  = float(data["前端w"]) 
+    B102  = float(data["原點至終點面W"])   
+
+
+
     K1  = float(data["未端D"]) / 2.0
     K2  = float(data["角度2"])
     K3 =  float(data["角度1"])
     K4  = float(data["原點至終點面W"]) 
     K5  = float(data["前端w"])
+
+    if K3 <= 0 or K3 >= 90:
+        raise ValueError("角度-1 不可小於 0度 ~ 大於 90 度")
+    if K2 <= 0 or K2 >= 90:
+        raise ValueError("角度-2 不可小於 0度 ~ 大於 90 度")    
+    if  B101 >= B102:
+        raise ValueError(" 斜角W1 不可大於或等於 斜角W2")
+
+
    
     # 第一段的有效水平距離（藏在程式裡）
     W1_eff = K4 - K5    # 50 - 10 = 40
